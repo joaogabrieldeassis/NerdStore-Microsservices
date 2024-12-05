@@ -1,0 +1,6 @@
+@NerdStoreEnterprise.Payment.Api_HostAddress = http://localhost:5161
+
+GET {{NerdStoreEnterprise.Payment.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

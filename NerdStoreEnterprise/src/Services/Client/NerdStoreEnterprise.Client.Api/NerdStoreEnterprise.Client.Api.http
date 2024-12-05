@@ -1,0 +1,6 @@
+@NerdStoreEnterprise.Client.Api_HostAddress = http://localhost:5185
+
+GET {{NerdStoreEnterprise.Client.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
