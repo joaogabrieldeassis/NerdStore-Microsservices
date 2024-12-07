@@ -7,14 +7,14 @@ public abstract class MainController : ControllerBase
 {
     protected ICollection<string> Erros = [];
 
-    protected bool OperacaoValida()
+    protected bool OperationValid()
     {
-        return Erros.Count > 0;
+        return Erros.Count < 1;
     }
 
     protected ActionResult CustomReponse(object result = null)
     {
-        if (OperacaoValida())
+        if (OperationValid())
         {
             return Ok(new
             {

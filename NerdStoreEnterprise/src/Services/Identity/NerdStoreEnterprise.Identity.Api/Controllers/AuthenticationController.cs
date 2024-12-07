@@ -18,20 +18,34 @@ public class AuthenticationController(UserManager<IdentityUser> userManager,
     private readonly IConfiguration _configuration = configuration;
 
     [HttpPost("registrar")]
-    public async Task<ActionResult> Registrar(RegisterUser registerUserDto)
+    public async Task<ActionResult> Register(RegisterUser registerUserDto)
     {
-        if (!ModelState.IsValid) return CustomReponse(ModelState);
-
-        var createUser = new IdentityUser
+        try
         {
-            UserName = registerUserDto.Email,
-            Email = registerUserDto.Email,
-            EmailConfirmed = true
-        };
+            if (!ModelState.IsValid) return CustomReponse(ModelState);
 
-        var result = await _userManager.CreateAsync(createUser, registerUserDto.Password);
-        if (result.Succeeded)
-            return CustomReponse(await GerarJwt(registerUserDto.Email));
+            var createUser = new IdentityUser
+            {
+                UserName = registerUserDto.Email,
+                Email = registerUserDto.Email,
+                EmailConfirmed = true
+            };
+
+            var result = await _userManager.CreateAsync(createUser, registerUserDto.Password);
+            if (result.Succeeded)
+                return CustomReponse(await GerarJwt(registerUserDto.Email));
+
+            else if (!result.Succeeded)
+            {
+                result.Errors.ToList().ForEach(error => { NotifierErro(error.Description); });
+            }
+        }
+        catch (Exception e)
+        {
+
+            throw;
+        }
+           
 
         return CustomReponse(registerUserDto);
     }
@@ -43,7 +57,7 @@ public class AuthenticationController(UserManager<IdentityUser> userManager,
 
 
         var resultLoginUser = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, true);
-        
+
         if (resultLoginUser.Succeeded)
         {
             return CustomReponse(await GerarJwt(loginUser.Email));

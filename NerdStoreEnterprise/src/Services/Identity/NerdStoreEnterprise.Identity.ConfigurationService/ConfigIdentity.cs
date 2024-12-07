@@ -19,7 +19,8 @@ public static class ConfigIdentity
         services.AddDefaultIdentity<IdentityUser>()
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddErrorDescriber<IdentityMessagePortugues>(); ;
     }
 
     public static void RegisterJwt(this IServiceCollection services, IConfiguration configuration)
