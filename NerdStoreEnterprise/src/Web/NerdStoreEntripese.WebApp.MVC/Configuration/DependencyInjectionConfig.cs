@@ -1,4 +1,6 @@
-﻿using NerdStoreEntripese.WebApp.MVC.Services;
+﻿using NerdStoreEntripese.WebApp.MVC.Extensions;
+using NerdStoreEntripese.WebApp.MVC.Extensions.Interfaces;
+using NerdStoreEntripese.WebApp.MVC.Services;
 
 namespace NerdStoreEntripese.WebApp.MVC.Configuration;
 
@@ -9,6 +11,6 @@ public static class DependencyInjectionConfig
         services.AddHttpClient<IAutenticationService, AutenticationService>();
 
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        //services.AddScoped<IUser, AspNetUser>();
+        services.AddScoped<IUser, AspNetUser>();
     }
 }

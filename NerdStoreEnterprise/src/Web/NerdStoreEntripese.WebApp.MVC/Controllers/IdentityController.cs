@@ -8,7 +8,7 @@ using NerdStoreEntripese.WebApp.MVC.Services;
 
 namespace NerdStoreEntripese.WebApp.MVC.Controllers;
 
-public class IdentityController(IAutenticationService service) : Controller
+public class IdentityController(IAutenticationService service) : MainController
 {
     private readonly IAutenticationService _service = service;
 
@@ -27,9 +27,9 @@ public class IdentityController(IAutenticationService service) : Controller
 
         var response = await _service.Register(registerUser);
 
-       // if (ResponsePossuiErros(resposta.ResponseResult)) return View(registerUser);
+        if (ResponseItHasErros(response.Data.ResponseResult)) return View(registerUser);
 
-       // await RealizarLogin(resposta);
+        await LoginIn(response.Data);
 
         return RedirectToAction("Index", "Home");
     }
@@ -51,9 +51,9 @@ public class IdentityController(IAutenticationService service) : Controller
 
         var response = await _service.Login(userLogin);
 
-       // if (ResponsePossuiErros(resposta.ResponseResult)) return View(userLogin);
+       if (ResponseItHasErros(response.Data.ResponseResult)) return View(userLogin);
 
-       // await RealizarLogin(resposta);
+       await LoginIn(response.Data);
 
         if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Home");
 
@@ -68,16 +68,19 @@ public class IdentityController(IAutenticationService service) : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    private async Task RealizarLogin(UserResponseLogin response)
+    private async Task LoginIn(NerdStoreEntripese.WebApp.MVC.Models.Responses.UserResponseLogin response)
     {
-        var token = ObterTokenFormatado(response.AccessToken);
+        if (response.AccessToken is null || response.AccessToken == string.Empty) BadRequest("Não foi possivel obter o token");
+        var token = GetTokenFormated(response.AccessToken);
+        if (token is null) BadRequest("Não foi possivel obter o token");
 
-        var claims = new List<Claim>();
-        claims.Add(new Claim("JWT", response.AccessToken));
+        var claims = new List<Claim>
+        {
+            new("JWT", response.AccessToken!)
+        };
         claims.AddRange(token.Claims);
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
         var authProperties = new AuthenticationProperties
         {
             ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60),
@@ -90,7 +93,7 @@ public class IdentityController(IAutenticationService service) : Controller
             authProperties);
     }
 
-    private static JwtSecurityToken ObterTokenFormatado(string jwtToken)
+    private static JwtSecurityToken? GetTokenFormated(string? jwtToken)
     {
         return new JwtSecurityTokenHandler().ReadToken(jwtToken) as JwtSecurityToken;
     }

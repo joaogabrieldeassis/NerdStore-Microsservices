@@ -2,8 +2,8 @@
 
 public class UserResponseLogin
 {
-    public string AccessToken { get; set; } = string.Empty;
+    public string? AccessToken { get; set; }
     public double ExpiresIn { get; set; }
-    public UserToken UsuarioToken { get; set; } = new();
-    public ResponseResult ResponseResult { get; set; } = new ResponseResult();
+    public UserToken? UserTokenDto { get; set; }
+    public ResponseResult? ResponseResult { get; set; }
 }
