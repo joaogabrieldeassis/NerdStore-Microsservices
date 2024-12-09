@@ -1,9 +1,8 @@
-namespace NerdStoreEntripese.WebApp.MVC.Models.Users
-{
-    public class ErrorViewModel
-    {
-        public string? RequestId { get; set; }
+namespace NerdStoreEntripese.WebApp.MVC.Models.Users;
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-    }
+public class ErrorViewModel
+{
+    public string? RequestId { get; set; }
+
+    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 }

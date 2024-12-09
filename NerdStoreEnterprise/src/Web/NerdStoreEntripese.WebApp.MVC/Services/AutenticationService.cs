@@ -28,8 +28,8 @@ public class AutenticationService(HttpClient httpClient) : IAutenticationService
                                                  "application/json");
 
             var response = await _httpClient.PostAsync("https://localhost:7225/Authentication/registrar", loginContent);
-
-            var a = JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+            var response2 = await response.Content.ReadAsStringAsync();
+            var a = JsonSerializer.Deserialize<string>(response2);
             return a;
         }
         catch (Exception e)

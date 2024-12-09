@@ -1,4 +1,4 @@
-﻿namespace NerdStoreEntripese.WebApp.MVC.Models.Users;
+﻿namespace NerdStoreEntripese.WebApp.MVC.Models.Responses;
 
 public class UserToken
 {
