@@ -27,7 +27,7 @@ public class IdentityController(IAutenticationService service) : MainController
 
         var response = await _service.Register(registerUser);
 
-        if (ResponseItHasErros(response.Data.ResponseResult)) return View(registerUser);
+        if (ResponseItHasErros(response)) return View(registerUser);
 
         await LoginIn(response.Data);
 
@@ -51,7 +51,7 @@ public class IdentityController(IAutenticationService service) : MainController
 
         var response = await _service.Login(userLogin);
 
-       if (ResponseItHasErros(response.Data.ResponseResult)) return View(userLogin);
+       if (ResponseItHasErros(response)) return View(userLogin);
 
        await LoginIn(response.Data);
 

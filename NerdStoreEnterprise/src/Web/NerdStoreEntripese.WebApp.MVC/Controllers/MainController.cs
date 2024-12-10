@@ -7,9 +7,9 @@ public class MainController : Controller
 {
     protected bool ResponseItHasErros(ResponseRequest response)
     {
-        if (response != null && response.Errors.Mensagens.Count > 0)
+        if (response != null && response.Errors.Count > 0)
         {
-            foreach (var mensagem in response.Errors.Mensagens)
+            foreach (var mensagem in response.Errors)
             {
                 ModelState.AddModelError(string.Empty, mensagem);
             }

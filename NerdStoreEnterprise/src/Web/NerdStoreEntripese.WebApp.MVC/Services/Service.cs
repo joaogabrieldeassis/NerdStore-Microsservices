@@ -6,7 +6,7 @@ namespace NerdStoreEntripese.WebApp.MVC.Services;
 
 public abstract class Service
 {
-    protected StringContent ObterConteudo(object dado)
+    protected StringContent GetContent(object dado)
     {
         return new StringContent(
             JsonSerializer.Serialize(dado),

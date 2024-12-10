@@ -1,4 +1,6 @@
-﻿namespace NerdStoreEntripese.WebApp.MVC.Configuration;
+﻿using NerdStoreEntripese.WebApp.MVC.Extensions;
+
+namespace NerdStoreEntripese.WebApp.MVC.Configuration;
 
 public static class WebAppConfig
 {
@@ -9,17 +11,11 @@ public static class WebAppConfig
 
     public static void UseMvcConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
     {
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
-        else
-        {
-            app.UseExceptionHandler("/erro/500");
-            app.UseStatusCodePagesWithRedirects("/erro/{0}");
-            app.UseHsts();
-        }
+        app.UseExceptionHandler("/erro/500");
+        app.UseStatusCodePagesWithRedirects("/erro/{0}");
+        app.UseHsts();
 
+        app.UseMiddleware<ExceptionMiddleware>();
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 

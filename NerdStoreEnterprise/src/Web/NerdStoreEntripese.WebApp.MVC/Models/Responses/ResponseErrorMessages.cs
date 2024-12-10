@@ -2,5 +2,5 @@
 
 public class ResponseErrorMessages
 {
-    public List<string> Mensagens { get; set; } = [];
+    public List<string> Erros { get; set; } = [];
 }
