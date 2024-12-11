@@ -20,19 +20,6 @@ public class DbContextFactory(IConfiguration configuration) : IDisposable
         }
     }
 
-    public SqlConnection CreateTestsConnection()
-    {
-        try
-        {
-            var connection = _configuration.GetConnectionString("Tests");
-            return new SqlConnection(connection);
-        }
-        catch (Exception e)
-        {
-            throw new Exception("Não foi possivel estabelecer uma conexão com o banco de dados", e.InnerException);
-        }
-    }
-
     public void Dispose()
         => CreateConnection()?.Dispose();
 }

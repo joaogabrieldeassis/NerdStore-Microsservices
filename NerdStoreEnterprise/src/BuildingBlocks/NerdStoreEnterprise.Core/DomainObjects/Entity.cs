@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NerdStoreEnterprise.Core.DomainObjects;
+﻿namespace NerdStoreEnterprise.Core.DomainObjects;
 
 public abstract class Entity
 {

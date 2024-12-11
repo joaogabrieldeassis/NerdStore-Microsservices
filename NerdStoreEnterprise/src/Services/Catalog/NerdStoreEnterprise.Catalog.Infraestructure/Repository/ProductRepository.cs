@@ -1,27 +1,35 @@
-﻿using NerdStoreEnterprise.Catalog.Business.Interfaces;
-using NerdStoreEnterprise.Catalog.Business.Models;
+﻿using NerdStoreEnterprise.Catalog.Business.Models;
 using NerdStoreEnterprise.Catalog.Infraestructure.Contexts;
 using NerdStoreEnterprise.Catalog.Infraestructure.Factorys;
+using Microsoft.Data.SqlClient;
+using Dapper;
+using NerdStoreEnterprise.Catalog.Infraestructure.Queries;
+using NerdStoreEnterprise.Catalog.Business.Interfaces.Repositories;
 
 namespace NerdStoreEnterprise.Catalog.Infraestructure.Repository;
 
 public class ProductRepository(CatalogContext contextEntity, DbContextFactory connectionDapper) : IProductRepository
 {
     private readonly CatalogContext _contextEntity = contextEntity;
-    private readonly DbContextFactory _connectionDapper = connectionDapper;
+    private readonly SqlConnection _connectionDapper = connectionDapper.CreateConnection();
 
-    public void Add(Product produto)
+    public async Task<IEnumerable<Product>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await _connectionDapper.QueryAsync<Product>(ProductQuerie.GetAll());
     }
 
-    public Task<IEnumerable<Product>> GetAllAsync()
+    public async Task<Product> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _connectionDapper.QueryFirstAsync<Product>(ProductQuerie.GetAll(), new { Id = id });
     }
 
-    public Task<Product> GetByIdAsync(Guid id)
+    public async Task Add(Product product)
     {
-        throw new NotImplementedException();
+        await _contextEntity.AddAsync(product);
+    }
+
+    public void Update(Product product)
+    {
+        _contextEntity.Update(product);
     }
 }
