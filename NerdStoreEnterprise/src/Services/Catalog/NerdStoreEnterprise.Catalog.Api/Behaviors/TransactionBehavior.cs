@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NerdStoreEnterprise.Catalog.Api.Configurations.Caches;
 using NerdStoreEnterprise.Catalog.Infraestructure.Contexts;
 
-namespace NerdStoreEnterprise.Catalog.Api.Configurations;
+namespace NerdStoreEnterprise.Catalog.Api.Behaviors;
 
 public class TransactionBehavior<TRequest, TResponse>(CatalogContext dbContext, ICacheManager cacheManager, IMediator mediator)
 : IPipelineBehavior<TRequest, TResponse> where TRequest : ICommand<TResponse>

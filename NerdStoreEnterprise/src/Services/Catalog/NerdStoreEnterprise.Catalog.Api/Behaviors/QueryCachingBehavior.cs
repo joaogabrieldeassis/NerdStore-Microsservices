@@ -1,10 +1,11 @@
 ﻿using MediatR;
+using NerdStoreEnterprise.Catalog.Api.Configurations.Caches;
 using System.Text.Json;
 
-namespace NerdStoreEnterprise.Catalog.Api.Configurations.Caches;
+namespace NerdStoreEnterprise.Catalog.Api.Behaviors;
 
 public sealed class QueryCachingBehavior<TRequest, TResponse>(ICacheManager cacheManager) : IPipelineBehavior<TRequest, TResponse?>
-    where TRequest : IRequest<TResponse>
+    where TRequest : IQuery<TResponse>
 {
     private readonly ICacheManager _cacheManager = cacheManager;
 
@@ -25,7 +26,7 @@ public sealed class QueryCachingBehavior<TRequest, TResponse>(ICacheManager cach
 
         response ??= await next();
 
-        await _cacheManager.SetAsync(cacheKey, response, TimeSpan.FromHours(1), TimeSpan.FromMinutes(30), cancellationToken);
+        await _cacheManager.SetAsync(cacheKey, response, TimeSpan.FromDays(1), TimeSpan.FromMinutes(30), cancellationToken);
         return response;
     }
 }

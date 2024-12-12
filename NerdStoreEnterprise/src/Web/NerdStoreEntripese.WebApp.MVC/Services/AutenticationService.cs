@@ -1,6 +1,4 @@
 ﻿using NerdStoreEntripese.WebApp.MVC.Models.Responses;
-using System.Text;
-using System.Text.Json;
 
 namespace NerdStoreEntripese.WebApp.MVC.Services;
 

@@ -3,4 +3,4 @@ using NerdStoreEnterprise.Catalog.Business.Models;
 
 namespace NerdStoreEnterprise.Catalog.Api.CQRS.Responses;
 
-public record ProductAllResponse : IQuery<IEnumerable<Product>>;
+public record ProductAllQuerie : IQuery<IEnumerable<Product>>;

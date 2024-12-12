@@ -1,4 +1,5 @@
-using NerdStoreEnterprise.Identity.ConfigurationService; 
+using NerdStoreEnterprise.Services.Identity;
+using NerdStoreEnterprise.Identity.ConfigurationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,11 @@ builder.Services.AddSwaggerGen();
 
 //Identity
 builder.Services.ConfigureIdentityService(builder.Configuration.GetConnectionString("DefaultConnectionSql")!);
-builder.Services.RegisterJwt(builder.Configuration);
+
+var secret = builder.Configuration.GetSection("AppSettings:Secret").Value!;
+var validIn = builder.Configuration.GetSection("AppSettings:ValidIn").Value!;
+var issuer = builder.Configuration.GetSection("AppSettings:Emissor").Value!;
+builder.Services.RegisterJwt(secret, validIn, issuer);
 
 var app = builder.Build();
 
@@ -20,7 +25,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthConfiguration();
 
 app.MapControllers();
 

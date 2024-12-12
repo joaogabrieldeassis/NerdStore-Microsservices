@@ -20,35 +20,6 @@ public static class ConfigIdentity
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders()
-            .AddErrorDescriber<IdentityMessagePortugues>(); ;
-    }
-
-    public static void RegisterJwt(this IServiceCollection services, IConfiguration configuration)
-    {
-        var secret = configuration.GetSection("AppSettings:Secret").Value;
-        var validIn = configuration.GetSection("AppSettings:ValidIn").Value;
-        var issuer = configuration.GetSection("AppSettings:Emissor").Value;
-
-        var key = Encoding.ASCII.GetBytes(secret!);
-
-        services.AddAuthentication(x =>
-        {
-            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(x =>
-        {
-            x.RequireHttpsMetadata = true;
-            x.SaveToken = true;
-            x.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidAudience = validIn,
-                ValidIssuer = issuer
-            };
-        });
-    }
+            .AddErrorDescriber<IdentityMessagePortugues>();
+    }    
 }

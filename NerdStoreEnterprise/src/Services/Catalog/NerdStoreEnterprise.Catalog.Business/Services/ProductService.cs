@@ -15,6 +15,6 @@ public class ProductService(IProductRepository repository) : IProductService
 
     public void Update(Product product)
     {
-        throw new NotImplementedException();
+        _repository.Update(product);
     }
 }

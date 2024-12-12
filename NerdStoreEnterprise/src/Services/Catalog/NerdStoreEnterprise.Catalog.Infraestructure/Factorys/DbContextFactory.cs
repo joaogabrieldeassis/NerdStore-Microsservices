@@ -11,7 +11,7 @@ public class DbContextFactory(IConfiguration configuration) : IDisposable
     {
         try
         {
-            var connection = _configuration.GetConnectionString("Core");
+            var connection = _configuration.GetConnectionString("DefaultConnectionSql");
             return new SqlConnection(connection);
         }
         catch (Exception e)
