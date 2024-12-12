@@ -1,4 +1,4 @@
-﻿namespace NerdStoreEnterprise.Catalog.Api.Configurations;
+﻿namespace NerdStoreEnterprise.Catalog.Api.Configurations.Caches;
 
 public interface ICacheManager
 {

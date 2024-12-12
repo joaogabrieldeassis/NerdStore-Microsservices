@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NerdStoreEnterprise.Catalog.Api.Configurations.Caches;
 using NerdStoreEnterprise.Catalog.Business.Interfaces.Repositories;
 using NerdStoreEnterprise.Catalog.Infraestructure.Contexts;
 using NerdStoreEnterprise.Catalog.Infraestructure.Factorys;

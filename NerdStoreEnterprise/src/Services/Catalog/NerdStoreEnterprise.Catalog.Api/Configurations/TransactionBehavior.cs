@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NerdStoreEnterprise.Catalog.Api.Configurations.Caches;
 using NerdStoreEnterprise.Catalog.Infraestructure.Contexts;
 
 namespace NerdStoreEnterprise.Catalog.Api.Configurations;

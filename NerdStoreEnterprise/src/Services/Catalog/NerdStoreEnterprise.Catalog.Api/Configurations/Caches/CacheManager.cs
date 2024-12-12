@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
 
-namespace NerdStoreEnterprise.Catalog.Api.Configurations;
+namespace NerdStoreEnterprise.Catalog.Api.Configurations.Caches;
 
 public sealed class CacheManager(IDistributedCache cache) : ICacheManager
 {

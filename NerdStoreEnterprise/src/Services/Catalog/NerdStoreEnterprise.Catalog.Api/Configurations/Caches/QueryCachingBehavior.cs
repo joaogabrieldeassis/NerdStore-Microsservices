@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System.Text.Json;
 
-namespace NerdStoreEnterprise.Catalog.Api.Configurations;
+namespace NerdStoreEnterprise.Catalog.Api.Configurations.Caches;
 
 public sealed class QueryCachingBehavior<TRequest, TResponse>(ICacheManager cacheManager) : IPipelineBehavior<TRequest, TResponse?>
     where TRequest : IRequest<TResponse>

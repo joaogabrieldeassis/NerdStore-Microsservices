@@ -4,6 +4,6 @@ namespace NerdStoreEnterprise.Catalog.Business.Interfaces.Services;
 
 public interface IProductService
 {
-    public Task<Guid> AddAsync(Product product);
-    public Task Update(Product product);
+    public Task AddAsync(Product product);
+    public void Update(Product product);
 }
