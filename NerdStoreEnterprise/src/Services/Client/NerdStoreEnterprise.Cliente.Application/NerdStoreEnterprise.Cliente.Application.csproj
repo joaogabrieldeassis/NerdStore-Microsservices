@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.Core\NerdStoreEnterprise.Core.csproj" />
+    <ProjectReference Include="..\NerdStoreEnterprise.Cliente.Domain\NerdStoreEnterprise.Cliente.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

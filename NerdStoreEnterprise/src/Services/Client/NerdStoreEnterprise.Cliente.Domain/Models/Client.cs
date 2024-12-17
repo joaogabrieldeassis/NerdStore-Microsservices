@@ -7,21 +7,20 @@ namespace NerdStoreEnterprise.Cliente.Domain.Models;
 
 public class Client : Entity, IAggregateRoot
 {
-    public Client(Guid id, string name, Email email, Cpf cpf, bool deleted, Address address)
+    public Client(Guid id, string name, Email email, Cpf cpf)
     {
         Id = id;
         Name = name;
         Email = email;
         Cpf = cpf;
-        Deleted = deleted;
-        Address = address;
+        Deleted = false;
     }
 
     public string Name { get; private set; }
     public Email Email { get; private set; }
     public Cpf Cpf { get; private set; } 
     public bool Deleted { get; private set; } = false;
-    public Address Address { get; private set; }
+    public Address? Address { get; private set; }
 
 
     public void ChangeEmail(string email)
