@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NerdStoreEnterprise.Cliente.Domain.Models;
+using NerdStoreEnterprise.Cliente.Infraestructure.Data.Context;
 using NerdStoreEnterprise.Core.DomainObjects.ValueObjects;
 
 namespace NerdStoreEnterprise.Cliente.Infraestructure.Data.Mappings;
 
-public class ClientMapping : IEntityTypeConfiguration<ClientesContext>
+public class ClientMapping : IEntityTypeConfiguration<Client>
 {
-    public void Configure(EntityTypeBuilder<ClientesContext> builder)
+    public void Configure(EntityTypeBuilder<Client> builder)
     {
         builder.HasKey(c => c.Id);
 

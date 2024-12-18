@@ -5,18 +5,18 @@ using NerdStoreEnterprise.Core.Interfaces;
 using NerdStoreEnterprise.Cliente.Domain.Models.ValueObjects;
 using NerdStoreEnterprise.Cliente.Domain.Models;
 
-namespace NerdStoreEnterprise.Cliente.Infraestructure.Data;
+namespace NerdStoreEnterprise.Cliente.Infraestructure.Data.Context;
 
-public class ClientesContext : DbContext, IUnitOfwork
+public class ClientContext : DbContext, IUnitOfwork
 {
-    public ClientesContext(DbContextOptions<ClientesContext> options)
+    public ClientContext(DbContextOptions<ClientContext> options)
         : base(options)
     {
         ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         ChangeTracker.AutoDetectChangesEnabled = false;
     }
 
-    public DbSet<Client> Clientes { get; set; }
+    public DbSet<Client> Clients { get; set; }
     public DbSet<Address> Enderecos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,7 +30,7 @@ public class ClientesContext : DbContext, IUnitOfwork
         foreach (var relationship in modelBuilder.Model.GetEntityTypes()
             .SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ClientesContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ClientContext).Assembly);
     }
 
     public async Task<bool> CommitAsync()
