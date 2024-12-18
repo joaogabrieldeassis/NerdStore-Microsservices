@@ -1,4 +1,5 @@
-﻿using NerdStoreEnterprise.Core.Messages;
+﻿using NerdStoreEnterprise.Cliente.Application.Commands.Validations;
+using NerdStoreEnterprise.Core.Messages;
 
 namespace NerdStoreEnterprise.Cliente.Application.Commands;
 
@@ -16,4 +17,11 @@ public class RegisterClientCommand : Command
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Cpf { get; set; } = string.Empty;
+
+    public override bool IsValid()
+    {
+        ValidationResult = new RegisterClientCommandValidation().Validate(this);
+
+        return ValidationResult.IsValid;
+    }
 }

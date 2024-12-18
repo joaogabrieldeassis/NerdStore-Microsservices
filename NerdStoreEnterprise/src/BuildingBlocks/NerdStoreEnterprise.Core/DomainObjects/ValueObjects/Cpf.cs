@@ -1,9 +1,4 @@
 ﻿using NerdStoreEnterprise.Core.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NerdStoreEnterprise.Core.DomainObjects.ValueObjects;
 
@@ -17,11 +12,11 @@ public class Cpf
 
     public Cpf(string numero)
     {
-        if (!Validar(numero)) throw new Exception("CPF inválido");
+        if (!Validate(numero)) throw new Exception("CPF inválido");
         Numero = numero;
     }
 
-    public static bool Validar(string cpf)
+    public static bool Validate(string cpf)
     {
         cpf = cpf.OnlyNumbers(cpf);
 

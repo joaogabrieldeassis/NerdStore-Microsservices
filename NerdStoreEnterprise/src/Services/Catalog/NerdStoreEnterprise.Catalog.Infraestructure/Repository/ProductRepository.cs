@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Dapper;
 using NerdStoreEnterprise.Catalog.Infraestructure.Queries;
 using NerdStoreEnterprise.Catalog.Business.Interfaces.Repositories;
+using NerdStoreEnterprise.Core.Interfaces;
 
 namespace NerdStoreEnterprise.Catalog.Infraestructure.Repository;
 
@@ -12,6 +13,8 @@ public class ProductRepository(CatalogContext contextEntity, DbContextFactory co
 {
     private readonly CatalogContext _contextEntity = contextEntity;
     private readonly SqlConnection _connectionDapper = connectionDapper.CreateConnection();
+
+    public IUnitOfwork IUnitOfwork => _contextEntity;
 
     public async Task<IEnumerable<Product>> GetAllAsync()
     {
