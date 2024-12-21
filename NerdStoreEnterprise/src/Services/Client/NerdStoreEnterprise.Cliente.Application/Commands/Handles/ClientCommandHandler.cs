@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using MediatR;
+using NerdStoreEnterprise.Cliente.Application.Commands.Events;
 using NerdStoreEnterprise.Cliente.Domain.Models;
 using NerdStoreEnterprise.Cliente.Domain.Models.Interfaces.Repositories;
 using NerdStoreEnterprise.Core.DomainObjects.ValueObjects;
@@ -14,7 +15,7 @@ public class ClientCommandHandler(IClientRepository clientRepository) : CommandH
     public async Task<ValidationResult> Handle(RegisterClientCommand request, CancellationToken cancellationToken)
     {
         if (!request.IsValid()) return request.ValidationResult!;
-        
+
         var client = new Client(request.Id, request.Name, new Email(request.Email), new Cpf(request.Cpf));
 
         var clienteExistente = await _clientRepository.GetByCpf(client.Cpf.Numero);
@@ -26,6 +27,8 @@ public class ClientCommandHandler(IClientRepository clientRepository) : CommandH
         }
 
         _clientRepository.Add(client);
+
+        client.AddEvent(new RegisteredClientEvent(request.Id, request.Name, request.Email, request.Cpf));
 
         return await PersistData(_clientRepository.IUnitOfwork);
     }

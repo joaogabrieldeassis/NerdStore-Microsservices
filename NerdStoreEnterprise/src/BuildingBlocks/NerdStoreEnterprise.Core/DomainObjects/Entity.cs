@@ -1,9 +1,15 @@
-﻿namespace NerdStoreEnterprise.Core.DomainObjects;
+﻿using NerdStoreEnterprise.Core.Messages;
+
+namespace NerdStoreEnterprise.Core.DomainObjects;
 
 public abstract class Entity
 {
-    public Guid Id { get; protected set; }
+    private List<Event> _notificacoes = [];
+    public IReadOnlyCollection<Event> Notificacoes => _notificacoes.AsReadOnly();
 
+
+    public Guid Id { get; protected set; }
+    
     public override bool Equals(object? obj)
     {
         var compareTo = obj as Entity;
@@ -38,5 +44,23 @@ public abstract class Entity
     public override string ToString()
     {
         return $"{GetType().Name} [Id={Id}]";
+    }
+
+    
+
+    public void AddEvent(Event eventDomain)
+    {
+        _notificacoes = _notificacoes ?? [];
+        _notificacoes.Add(eventDomain);
+    }
+
+    public void RemoveEvent(Event eventItem)
+    {
+        _notificacoes?.Remove(eventItem);
+    }
+
+    public void ClearEvents()
+    {
+        _notificacoes?.Clear();
     }
 }

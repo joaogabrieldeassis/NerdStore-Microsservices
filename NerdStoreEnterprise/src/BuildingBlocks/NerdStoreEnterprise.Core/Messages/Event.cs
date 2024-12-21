@@ -1,5 +1,13 @@
-﻿namespace NerdStoreEnterprise.Core.Messages;
+﻿using MediatR;
 
-public class Event
+namespace NerdStoreEnterprise.Core.Messages;
+
+public class Event : Message, INotification
 {
+    public DateTime Timestamp { get; private set; }
+
+    protected Event()
+    {
+        Timestamp = DateTime.Now;
+    }
 }
