@@ -1,6 +1,8 @@
+using EasyNetQ;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using NerdStoreEnterprise.Core.Messages.Integrations;
 using NerdStoreEnterprise.Identity.Api.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -11,11 +13,13 @@ namespace NerdStoreEnterprise.Identity.Api.Controllers;
 [Route("[controller]")]
 public class AuthenticationController(UserManager<IdentityUser> userManager,
                                    SignInManager<IdentityUser> signInManager,
-                                   IConfiguration configuration) : MainController
+                                   IConfiguration configuration,
+                                   IBus bus) : MainController
 {
     private readonly UserManager<IdentityUser> _userManager = userManager;
     private readonly SignInManager<IdentityUser> _signInManager = signInManager;
     private readonly IConfiguration _configuration = configuration;
+    private IBus _bus = bus;
 
     [HttpPost("registrar")]
     public async Task<ActionResult> Register(RegisterUser registerUserDto)
@@ -33,7 +37,10 @@ public class AuthenticationController(UserManager<IdentityUser> userManager,
 
             var result = await _userManager.CreateAsync(createUser, registerUserDto.Password);
             if (result.Succeeded)
+            {
+                await RegisterClient(registerUserDto);
                 return CustomReponse(await GerarJwt(registerUserDto.Email));
+            }
 
             else if (!result.Succeeded)
             {
@@ -45,9 +52,20 @@ public class AuthenticationController(UserManager<IdentityUser> userManager,
 
             throw;
         }
-           
+
 
         return CustomReponse(registerUserDto);
+    }
+
+    private async Task<ResponseMessage> RegisterClient(RegisterUser register)
+    {
+        var user = await _userManager.FindByEmailAsync(register.Email);
+        var userRegister = new UserRegisteredIntegrationEvent(Guid.Parse(user!.Id),
+                                                               register.Name,
+                                                               register.Email,
+                                                               register.Cpf);
+        _bus = RabbitHutch.CreateBus("host=localhost:5672");
+        return await _bus.Rpc.RequestAsync<UserRegisteredIntegrationEvent, ResponseMessage>(userRegister);
     }
 
     [HttpPost("logar")]

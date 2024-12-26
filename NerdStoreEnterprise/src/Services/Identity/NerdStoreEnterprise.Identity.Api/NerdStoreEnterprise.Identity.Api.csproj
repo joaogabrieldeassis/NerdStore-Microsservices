@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EasyNetQ" Version="7.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
@@ -26,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.Core\NerdStoreEnterprise.Core.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.Services\NerdStoreEnterprise.Services.csproj" />
     <ProjectReference Include="..\NerdStoreEnterprise.Identity.ConfigurationService\NerdStoreEnterprise.Identity.ConfigurationService.csproj" />
     <ProjectReference Include="..\NerdStoreEnterprise.Identity.Data\NerdStoreEnterprise.Identity.Data.csproj" />

@@ -5,7 +5,11 @@ namespace NerdStoreEnterprise.Identity.Api.Models;
 public class RegisterUser
 {
     [Required(ErrorMessage = "O campo nome é obrigatorio")]
+    public string Cpf { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "O campo nome é obrigatorio")]
     public string Name { get; set; } = string.Empty;
+
     [Required(ErrorMessage = "O campo email é obrigatorio")]
     [EmailAddress(ErrorMessage = "O campo email está em formato invalido}")]
     public string Email { get; set; } = string.Empty;
