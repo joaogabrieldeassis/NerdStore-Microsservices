@@ -13,13 +13,12 @@ namespace NerdStoreEnterprise.Identity.Api.Controllers;
 [Route("[controller]")]
 public class AuthenticationController(UserManager<IdentityUser> userManager,
                                    SignInManager<IdentityUser> signInManager,
-                                   IConfiguration configuration,
-                                   IBus bus) : MainController
+                                   IConfiguration configuration) : MainController
 {
     private readonly UserManager<IdentityUser> _userManager = userManager;
     private readonly SignInManager<IdentityUser> _signInManager = signInManager;
     private readonly IConfiguration _configuration = configuration;
-    private IBus _bus = bus;
+    private IBus _bus;
 
     [HttpPost("registrar")]
     public async Task<ActionResult> Register(RegisterUser registerUserDto)

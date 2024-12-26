@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NerdStoreEnterprise.Client.Infraestructure.Service\NerdStoreEnterprise.Client.Infraestructure.Service.csproj" />
+    <ProjectReference Include="..\NerdStoreEnterprise.Cliente.Application\NerdStoreEnterprise.Cliente.Application.csproj" />
+    <ProjectReference Include="..\NerdStoreEnterprise.Cliente.Domain\NerdStoreEnterprise.Cliente.Domain.csproj" />
+    <ProjectReference Include="..\NerdStoreEnterprise.Cliente.Infraestructure.Data\NerdStoreEnterprise.Cliente.Infraestructure.Data.csproj" />
+  </ItemGroup>
+
+</Project>
