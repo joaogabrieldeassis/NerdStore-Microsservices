@@ -14,7 +14,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Progr
 
 //IOC 
 builder.Services.RegisterServices();
-
+builder.Services.AddMessageBusConfiguration(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

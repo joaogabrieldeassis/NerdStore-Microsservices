@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.Core\NerdStoreEnterprise.Core.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.MessageBus\NerdStoreEnterprise.MessageBus.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.Services\NerdStoreEnterprise.Services.csproj" />
     <ProjectReference Include="..\NerdStoreEnterprise.Identity.ConfigurationService\NerdStoreEnterprise.Identity.ConfigurationService.csproj" />
     <ProjectReference Include="..\NerdStoreEnterprise.Identity.Data\NerdStoreEnterprise.Identity.Data.csproj" />

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using NerdStoreEnterprise.Core.Messages.Integrations;
 using NerdStoreEnterprise.Identity.Api.Models;
+using NerdStoreEnterprise.MessageBus;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -13,12 +14,12 @@ namespace NerdStoreEnterprise.Identity.Api.Controllers;
 [Route("[controller]")]
 public class AuthenticationController(UserManager<IdentityUser> userManager,
                                    SignInManager<IdentityUser> signInManager,
-                                   IConfiguration configuration) : MainController
+                                   IConfiguration configuration, IMessageBus messageBus) : MainController
 {
     private readonly UserManager<IdentityUser> _userManager = userManager;
     private readonly SignInManager<IdentityUser> _signInManager = signInManager;
     private readonly IConfiguration _configuration = configuration;
-    private IBus _bus;
+    private IMessageBus _bus = messageBus;
 
     [HttpPost("registrar")]
     public async Task<ActionResult> Register(RegisterUser registerUserDto)
@@ -37,7 +38,8 @@ public class AuthenticationController(UserManager<IdentityUser> userManager,
             var result = await _userManager.CreateAsync(createUser, registerUserDto.Password);
             if (result.Succeeded)
             {
-                await RegisterClient(registerUserDto);
+                if (!await RegisterClient(registerUserDto)) return CustomReponse();
+
                 return CustomReponse(await GerarJwt(registerUserDto.Email));
             }
 
@@ -54,17 +56,6 @@ public class AuthenticationController(UserManager<IdentityUser> userManager,
 
 
         return CustomReponse(registerUserDto);
-    }
-
-    private async Task<ResponseMessage> RegisterClient(RegisterUser register)
-    {
-        var user = await _userManager.FindByEmailAsync(register.Email);
-        var userRegister = new UserRegisteredIntegrationEvent(Guid.Parse(user!.Id),
-                                                               register.Name,
-                                                               register.Email,
-                                                               register.Cpf);
-        _bus = RabbitHutch.CreateBus("host=localhost:5672");
-        return await _bus.Rpc.RequestAsync<UserRegisteredIntegrationEvent, ResponseMessage>(userRegister);
     }
 
     [HttpPost("logar")]
@@ -160,4 +151,30 @@ public class AuthenticationController(UserManager<IdentityUser> userManager,
 
     private static long ToUnixEporDate(DateTime dateTime)
         => (long)Math.Round((dateTime.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
+
+    [NonAction]
+    private async Task<bool> RegisterClient(RegisterUser register)
+    {
+        var user = await _userManager.FindByEmailAsync(register.Email);
+        var userRegister = new UserRegisteredIntegrationEvent(Guid.Parse(user!.Id),
+                                                               register.Name,
+                                                               register.Email,
+                                                               register.Cpf);
+        try
+        {
+            var requestUser = await _bus.RequestAsync<UserRegisteredIntegrationEvent, ResponseMessage>(userRegister);
+            if (requestUser.ValidationResult.IsValid) return true;
+
+            await _userManager.DeleteAsync(user!);
+            CustomReponse(requestUser.ValidationResult);
+
+            return false;
+        }
+        catch
+        {
+            return false;
+            throw;
+        }
+
+    }
 }

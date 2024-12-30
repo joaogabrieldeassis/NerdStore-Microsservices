@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.Core\NerdStoreEnterprise.Core.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.MessageBus\NerdStoreEnterprise.MessageBus.csproj" />
     <ProjectReference Include="..\NerdStoreEnterprise.Cliente.Application\NerdStoreEnterprise.Cliente.Application.csproj" />
   </ItemGroup>
 

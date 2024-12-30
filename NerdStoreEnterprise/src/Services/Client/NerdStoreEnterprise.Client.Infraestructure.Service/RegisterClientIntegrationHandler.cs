@@ -1,26 +1,19 @@
-﻿using EasyNetQ;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NerdStoreEnterprise.Cliente.Application.Commands;
 using NerdStoreEnterprise.Core.MediatR;
 using NerdStoreEnterprise.Core.Messages.Integrations;
+using NerdStoreEnterprise.MessageBus;
 
 namespace NerdStoreEnterprise.Client.Infraestructure.Service;
 
-public class RegisterClientIntegrationHandler(IServiceProvider serviceProvider) : BackgroundService
+public class RegisterClientIntegrationHandler(IServiceProvider serviceProvider, IMessageBus messageBus) : BackgroundService
 {
-    private IBus _bus = RabbitHutch.CreateBus("host=localhost:5672");
+    private IMessageBus _bus = messageBus;
     private readonly IServiceProvider _serviceProvider = serviceProvider;
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        _bus.Rpc.RespondAsync<UserRegisteredIntegrationEvent, ResponseMessage>(async request => new ResponseMessage(await RegisterClient(request)));
-
-        return Task.CompletedTask;
-    }
-
-    private async Task<ValidationResult> RegisterClient(UserRegisteredIntegrationEvent command)
+    private async Task<ResponseMessage> RegisterClient(UserRegisteredIntegrationEvent command)
     {
         var clientCommand = new RegisterClientCommand(command.Id, command.Name, command.Email, command.Cpf);
         ValidationResult result;
@@ -31,6 +24,25 @@ public class RegisterClientIntegrationHandler(IServiceProvider serviceProvider) 
             result = await mediatR.SendCommand(clientCommand);
         }
 
-        return result;
+        return new ResponseMessage(result);
+    }
+
+    private void SetResponder()
+    {
+        _bus.RespondAsync<UserRegisteredIntegrationEvent, ResponseMessage>(async request =>
+            await RegisterClient(request));
+
+        _bus.AdvancedBus.Connected += OnConnect;
+    }
+
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        SetResponder();
+        return Task.CompletedTask;
+    }
+
+    private void OnConnect(object s, EventArgs e)
+    {
+        SetResponder();
     }
 }
