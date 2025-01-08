@@ -19,8 +19,8 @@ public class CartItemValidation : AbstractValidator<CartItem>
             .WithMessage(item => $"The minimum quantity for {item.Name} is 1");
 
         RuleFor(c => c.Quantity)
-            .LessThanOrEqualTo(CustomerCart.MAX_ITEM_QUANTITY)
-            .WithMessage(item => $"The maximum quantity for {item.Name} is {CustomerCart.MAX_ITEM_QUANTITY}");
+            .LessThanOrEqualTo(ClientCart.MAX_ITEM_QUANTITY)
+            .WithMessage(item => $"The maximum quantity for {item.Name} is {ClientCart.MAX_ITEM_QUANTITY}");
 
         RuleFor(c => c.Value)
             .GreaterThan(0)

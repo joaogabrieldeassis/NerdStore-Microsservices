@@ -19,7 +19,7 @@ public partial class CartItem
     public Guid CartId { get; set; }
 
     [JsonIgnore]
-    public CustomerCart CustomerCart { get; set; }
+    public ClientCart CustomerCart { get; set; }
 
     internal void AssociateCart(Guid cartId)
     {

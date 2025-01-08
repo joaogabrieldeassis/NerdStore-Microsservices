@@ -7,7 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\CQRS\Orders\Queries\" />
+    <Folder Include="Configurations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.Core\NerdStoreEnterprise.Core.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.MessageBus\NerdStoreEnterprise.MessageBus.csproj" />
+    <ProjectReference Include="..\NerdStoreEnterprise.Order.Domain\NerdStoreEnterprise.Order.Domain.csproj" />
   </ItemGroup>
 
 </Project>

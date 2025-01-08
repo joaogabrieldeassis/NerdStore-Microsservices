@@ -15,7 +15,7 @@ public sealed class CartContext : DbContext
     }
 
     public DbSet<CartItem> CartItems { get; set; }
-    public DbSet<CustomerCart> CustomerCarts { get; set; }
+    public DbSet<ClientCart> ClientCart { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,11 +25,11 @@ public sealed class CartContext : DbContext
 
         modelBuilder.Ignore<ValidationResult>();
 
-        modelBuilder.Entity<CustomerCart>()
-            .HasIndex(c => c.CustomerId)
+        modelBuilder.Entity<ClientCart>()
+            .HasIndex(c => c.ClientId)
             .HasName("IDX_Customer");
 
-        modelBuilder.Entity<CustomerCart>()
+        modelBuilder.Entity<ClientCart>()
             .HasMany(c => c.Items)
             .WithOne(i => i.CustomerCart)
             .HasForeignKey(c => c.CartId);

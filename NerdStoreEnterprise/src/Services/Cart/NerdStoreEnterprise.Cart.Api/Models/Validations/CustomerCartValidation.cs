@@ -2,11 +2,11 @@
 
 namespace NerdStoreEnterprise.Cart.Api.Models;
 
-public class CustomerCartValidation : AbstractValidator<CustomerCart>
+public class CustomerCartValidation : AbstractValidator<ClientCart>
 {
     public CustomerCartValidation()
     {
-        RuleFor(c => c.CustomerId)
+        RuleFor(c => c.ClientId)
             .NotEqual(Guid.Empty)
             .WithMessage("Unrecognized customer");
 

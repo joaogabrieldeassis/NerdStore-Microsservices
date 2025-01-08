@@ -1,0 +1,6 @@
+@NerdStoreEnterprise.Gateway.Shopping_HostAddress = http://localhost:5191
+
+GET {{NerdStoreEnterprise.Gateway.Shopping_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

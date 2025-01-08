@@ -3,23 +3,23 @@ using FluentValidation.Results;
 
 namespace NerdStoreEnterprise.Cart.Api.Models;
 
-public partial class CustomerCart
+public partial class ClientCart
 {
     internal const int MAX_ITEM_QUANTITY = 5;
 
     public Guid Id { get; set; }
-    public Guid CustomerId { get; set; }
+    public Guid ClientId { get; set; }
     public decimal TotalValue { get; set; }
     public List<CartItem> Items { get; set; } = new List<CartItem>();
     public ValidationResult ValidationResult { get; set; }
 
-    public CustomerCart(Guid customerId)
+    public ClientCart(Guid customerId)
     {
         Id = Guid.NewGuid();
-        CustomerId = customerId;
+        ClientId = customerId;
     }
 
-    public CustomerCart() { }
+    public ClientCart() { }
 
     internal void CalculateCartValue()
     {
