@@ -5,7 +5,7 @@ namespace NerdStoreEnterprise.Core.DomainObjects;
 public abstract class Entity
 {
     private List<Event> _notificacoes = [];
-    public IReadOnlyCollection<Event> Notificacoes => _notificacoes.AsReadOnly();
+    public IReadOnlyCollection<Event> Notifications => _notificacoes.AsReadOnly();
 
 
     public Guid Id { get; protected set; }

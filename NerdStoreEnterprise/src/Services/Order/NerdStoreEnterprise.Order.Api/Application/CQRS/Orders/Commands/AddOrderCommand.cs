@@ -1,4 +1,6 @@
 ﻿using NerdStoreEnterprise.Core.Messages;
+using NerdStoreEnterprise.Order.Api.Application.CQRS.DTOs;
+using NerdStoreEnterprise.Order.Api.Application.CQRS.Vouchers.Orders.Validations;
 
 namespace NerdStoreEnterprise.Order.Api.Application.CQRS.Orders.Commands;
 

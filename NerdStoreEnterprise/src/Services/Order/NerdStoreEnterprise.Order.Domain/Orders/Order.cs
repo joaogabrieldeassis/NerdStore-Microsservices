@@ -1,5 +1,6 @@
 ﻿using NerdStoreEnterprise.Core.DomainObjects;
 using NerdStoreEnterprise.Core.Interfaces;
+using NerdStoreEnterprise.Order.Domain.Vouchers;
 
 namespace NerdStoreEnterprise.Order.Domain.Orders;
 
@@ -35,14 +36,14 @@ public class Order : Entity, IAggregateRoot
     public Address Address { get; private set; }
 
     // EF Rel.
-    public Voucher Voucher { get; private set; }
+    public Vouchers.Voucher Voucher { get; private set; }
 
     public void AuthorizeOrder()
     {
         OrderStatus = OrderStatus.Authorized;
     }
 
-    public void AssignVoucher(Voucher voucher)
+    public void AssignVoucher(Vouchers.Voucher voucher)
     {
         VoucherUsed = true;
         VoucherId = voucher.Id;

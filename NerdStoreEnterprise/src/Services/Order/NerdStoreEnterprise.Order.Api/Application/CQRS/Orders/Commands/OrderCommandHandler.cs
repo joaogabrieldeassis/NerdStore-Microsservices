@@ -1,22 +1,20 @@
 ﻿using FluentValidation.Results;
+using MediatR;
 using NerdStoreEnterprise.Core.Messages;
+using NerdStoreEnterprise.Order.Api.Application.CQRS.DTOs;
+using NerdStoreEnterprise.Order.Api.Application.CQRS.Events;
 using NerdStoreEnterprise.Order.Domain.Orders;
 using NerdStoreEnterprise.Order.Domain.Vouchers;
+using NerdStoreEnterprise.Order.Domain.Vouchers.Specs;
 
 namespace NerdStoreEnterprise.Order.Api.Application.CQRS.Orders.Commands;
 
-public class OrderCommandHandler : CommandHandler,
-IRequestHandler<AddOrderCommand, ValidationResult>
+public class OrderCommandHandler(IVoucherRepository voucherRepository,
+                           IOrderRepository orderRepository) : CommandHandler,
+            IRequestHandler<AddOrderCommand, ValidationResult>
 {
-    private readonly IOrderRepository _orderRepository;
-    private readonly IVoucherRepository _voucherRepository;
-
-    public OrderCommandHandler(IVoucherRepository voucherRepository,
-                               IOrderRepository orderRepository)
-    {
-        _voucherRepository = voucherRepository;
-        _orderRepository = orderRepository;
-    }
+    private readonly IOrderRepository _orderRepository = orderRepository;
+    private readonly IVoucherRepository _voucherRepository = voucherRepository;
 
     public async Task<ValidationResult> Handle(AddOrderCommand message, CancellationToken cancellationToken)
     {
@@ -45,10 +43,10 @@ IRequestHandler<AddOrderCommand, ValidationResult>
         _orderRepository.Add(order);
 
         // Persist order and voucher data
-        return await PersistData(_orderRepository.UnitOfWork);
+        return await PersistData(_orderRepository.IUnitOfwork);
     }
 
-    private Order MapOrder(AddOrderCommand message)
+    private Domain.Orders.Order MapOrder(AddOrderCommand message)
     {
         var address = new Address
         {
@@ -61,28 +59,28 @@ IRequestHandler<AddOrderCommand, ValidationResult>
             State = message.Address.State
         };
 
-        var order = new Order(message.CustomerId, message.TotalAmount, message.OrderItems.Select(OrderItemDTO.ToOrderItem).ToList(),
+        var order = new Domain.Orders.Order(message.CustomerId, message.TotalAmount, message.OrderItems.Select(OrderItemDTO.ToOrderItem).ToList(),
             message.VoucherUsed, message.Discount);
 
         order.AssignAddress(address);
         return order;
     }
 
-    private async Task<bool> ApplyVoucher(AddOrderCommand message, Order order)
+    private async Task<bool> ApplyVoucher(AddOrderCommand message, Domain.Orders.Order order)
     {
         if (!message.VoucherUsed) return true;
 
         var voucher = await _voucherRepository.GetVoucherByCode(message.VoucherCode);
         if (voucher == null)
         {
-            AddError("The provided voucher does not exist!");
+            AddErros("The provided voucher does not exist!");
             return false;
         }
 
         var voucherValidation = new VoucherValidation().Validate(voucher);
         if (!voucherValidation.IsValid)
         {
-            voucherValidation.Errors.ToList().ForEach(m => AddError(m.ErrorMessage));
+            voucherValidation.Errors.ToList().ForEach(m => AddErros(m.ErrorMessage));
             return false;
         }
 
@@ -94,29 +92,29 @@ IRequestHandler<AddOrderCommand, ValidationResult>
         return true;
     }
 
-    private bool ValidateOrder(Order order)
+    private bool ValidateOrder(Domain.Orders.Order order)
     {
         var originalOrderAmount = order.TotalAmount;
         var orderDiscount = order.Discount;
 
-        order.CalculateOrderAmount();
+        order.CalculateTotalDiscountValue();
 
         if (order.TotalAmount != originalOrderAmount)
         {
-            AddError("The total order amount does not match the order calculation");
+            AddErros("The total order amount does not match the order calculation");
             return false;
         }
 
         if (order.Discount != orderDiscount)
         {
-            AddError("The total amount does not match the order calculation");
+            AddErros("The total amount does not match the order calculation");
             return false;
         }
 
         return true;
     }
 
-    public bool ProcessPayment(Order order)
+    public bool ProcessPayment(Domain.Orders.Order order)
     {
         return true;
     }

@@ -11,16 +11,16 @@ public class CommandHandler
     {
         ValidationResult = new ValidationResult();
     }
-
-    public void AddErros(string error)
-    {
-        ValidationResult.Errors.Add(new ValidationFailure(string.Empty, error));
-    }
-
+    
     protected async Task<ValidationResult> PersistData(IUnitOfwork uow)
     {
         if (!await uow.CommitAsync()) AddErros("There was an error persisting the data");
 
         return ValidationResult;
+    }
+
+    public void AddErros(string error)
+    {
+        ValidationResult.Errors.Add(new ValidationFailure(string.Empty, error));
     }
 }
