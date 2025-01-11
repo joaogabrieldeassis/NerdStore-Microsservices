@@ -46,7 +46,7 @@ public class OrderCommandHandler(IVoucherRepository voucherRepository,
         return await PersistData(_orderRepository.IUnitOfwork);
     }
 
-    private Domain.Orders.Order MapOrder(AddOrderCommand message)
+    private static Domain.Orders.Order MapOrder(AddOrderCommand message)
     {
         var address = new Address
         {
