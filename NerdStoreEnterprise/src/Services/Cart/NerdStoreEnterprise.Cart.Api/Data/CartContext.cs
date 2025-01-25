@@ -35,6 +35,6 @@ public sealed class CartContext : DbContext
             .HasForeignKey(c => c.CartId);
 
         foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+            relationship.DeleteBehavior = DeleteBehavior.Cascade;
     }
 }

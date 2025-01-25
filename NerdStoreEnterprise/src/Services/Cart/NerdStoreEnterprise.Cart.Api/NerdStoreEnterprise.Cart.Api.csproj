@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.MessageBus\NerdStoreEnterprise.MessageBus.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.Services\NerdStoreEnterprise.Services.csproj" />
   </ItemGroup>
 

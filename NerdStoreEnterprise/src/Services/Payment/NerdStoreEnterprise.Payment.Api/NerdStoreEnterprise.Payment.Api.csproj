@@ -10,4 +10,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.Core\NerdStoreEnterprise.Core.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\NerdStoreEnterprise.MessageBus\NerdStoreEnterprise.MessageBus.csproj" />
+    <ProjectReference Include="..\NerdStorageEnterprise.Payment.NerdsApi\NerdStorageEnterprise.Payment.NerdsApi.csproj" />
+  </ItemGroup>
+
 </Project>

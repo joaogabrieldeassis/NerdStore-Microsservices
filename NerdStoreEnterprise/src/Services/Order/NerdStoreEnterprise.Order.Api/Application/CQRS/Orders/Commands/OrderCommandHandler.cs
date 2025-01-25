@@ -1,6 +1,9 @@
 ﻿using FluentValidation.Results;
 using MediatR;
+using Microsoft.OpenApi.Validations;
 using NerdStoreEnterprise.Core.Messages;
+using NerdStoreEnterprise.Core.Messages.Integrations;
+using NerdStoreEnterprise.MessageBus;
 using NerdStoreEnterprise.Order.Api.Application.CQRS.DTOs;
 using NerdStoreEnterprise.Order.Api.Application.CQRS.Events;
 using NerdStoreEnterprise.Order.Domain.Orders;
@@ -10,11 +13,12 @@ using NerdStoreEnterprise.Order.Domain.Vouchers.Specs;
 namespace NerdStoreEnterprise.Order.Api.Application.CQRS.Orders.Commands;
 
 public class OrderCommandHandler(IVoucherRepository voucherRepository,
-                           IOrderRepository orderRepository) : CommandHandler,
-            IRequestHandler<AddOrderCommand, ValidationResult>
+                           IOrderRepository orderRepository,
+                           IMessageBus bus) : CommandHandler, IRequestHandler<AddOrderCommand, ValidationResult>
 {
     private readonly IOrderRepository _orderRepository = orderRepository;
     private readonly IVoucherRepository _voucherRepository = voucherRepository;
+    private readonly IMessageBus _bus = bus;
 
     public async Task<ValidationResult> Handle(AddOrderCommand message, CancellationToken cancellationToken)
     {
@@ -114,8 +118,23 @@ public class OrderCommandHandler(IVoucherRepository voucherRepository,
         return true;
     }
 
-    public bool ProcessPayment(Domain.Orders.Order order)
+    public async Task<bool> ProcessPayment(Domain.Orders.Order order, AddOrderCommand message)
     {
+        var initiOrder = new OrderStartedIntegrationEvent
+        {
+            OrderId = order.Id,
+            CustomerId = order.CustomerId,
+            Amount = order.TotalAmount,
+            PaymentType = 1,
+            CardName = message.CardName,
+            CardNumber = message.CardNumber,
+            ExpirationMonthYear = message.CardExpiration,
+            CVV = message.CardCvv
+        };
+
+        var result = await _bus.RequestAsync<OrderStartedIntegrationEvent, ResponseMessage>(initiOrder);
+
+
         return true;
     }
 }

@@ -73,9 +73,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApyGateways", "ApyGateways"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerdStoreEnterprise.Gateway.Shopping", "src\ApiGateways\NerdStoreEnterprise.Gateway.Shopping\NerdStoreEnterprise.Gateway.Shopping.csproj", "{3D06C028-F779-477D-B0D1-6C5F171B9A80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdStoreEnterprise.Order.Domain", "src\Services\Order\NerdStoreEnterprise.Order.Domain\NerdStoreEnterprise.Order.Domain.csproj", "{6CC2D4C6-042B-4E24-AE5F-89F14E062813}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerdStoreEnterprise.Order.Domain", "src\Services\Order\NerdStoreEnterprise.Order.Domain\NerdStoreEnterprise.Order.Domain.csproj", "{6CC2D4C6-042B-4E24-AE5F-89F14E062813}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdStoreEnterprise.Order.Infraestructure", "src\Services\Order\NerdStoreEnterprise.Order.Infraestructure\NerdStoreEnterprise.Order.Infraestructure.csproj", "{12D88520-2C17-4055-AC2A-45A6917096C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerdStoreEnterprise.Order.Infraestructure", "src\Services\Order\NerdStoreEnterprise.Order.Infraestructure\NerdStoreEnterprise.Order.Infraestructure.csproj", "{12D88520-2C17-4055-AC2A-45A6917096C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdStorageEnterprise.Payment.NerdsApi", "src\Services\Payment\NerdStorageEnterprise.Payment.NerdsApi\NerdStorageEnterprise.Payment.NerdsApi.csproj", "{69947D60-4361-44F2-AC1A-A250FCD27484}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -171,6 +173,10 @@ Global
 		{12D88520-2C17-4055-AC2A-45A6917096C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12D88520-2C17-4055-AC2A-45A6917096C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12D88520-2C17-4055-AC2A-45A6917096C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69947D60-4361-44F2-AC1A-A250FCD27484}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69947D60-4361-44F2-AC1A-A250FCD27484}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69947D60-4361-44F2-AC1A-A250FCD27484}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69947D60-4361-44F2-AC1A-A250FCD27484}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -212,6 +218,7 @@ Global
 		{3D06C028-F779-477D-B0D1-6C5F171B9A80} = {4634CD4C-97A4-41E2-AE78-9902D67861A7}
 		{6CC2D4C6-042B-4E24-AE5F-89F14E062813} = {C2D007CD-0024-4F53-A0F5-4CC1201BA179}
 		{12D88520-2C17-4055-AC2A-45A6917096C5} = {C2D007CD-0024-4F53-A0F5-4CC1201BA179}
+		{69947D60-4361-44F2-AC1A-A250FCD27484} = {808E93BA-C745-45B9-89A2-9BAD388847B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {305F1F22-8B06-48DB-BEEA-C06277CCB44E}
